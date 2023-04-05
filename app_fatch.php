@@ -94,7 +94,7 @@ function countBusinessDays2($start, $endDate, $holidays = array())
 }
 
 foreach ($result as $row) {
-
+    $dw;
     $sub_array = array();
     $n++;
     $full_io_number = explode('-', $row['io_number']);
@@ -216,7 +216,7 @@ foreach ($result as $row) {
         compET_as_' . $n . ',
         duraET_qca_' . $n . ',
         compET_qca_' . $n . ',
-        
+
         compET_qca_' . $n . ',
         duraET_ta_' . $n . ',
         compET_ta_' . $n . ')"/>';

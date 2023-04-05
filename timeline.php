@@ -120,7 +120,7 @@
     if ($result["businessDays"] >= 0) {
         echo "Number of business days remaining: " . $result["businessDays"];
     } else {
-        echo "Number of business days late: " . $result["daysLate"];
+        echo "Number of business days latea: " . $result["daysLate"];
     }
 
 
