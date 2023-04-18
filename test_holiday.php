@@ -23,10 +23,7 @@
 </style>
 
 <body>
-    <!-- <div id="mdp-demo"></div> -->
-
-
-
+    <div id="mdp-demo"></div>
 </body>
 <script type="text/javascript" language="javascript">
     $(document).ready(function() {
@@ -49,22 +46,16 @@
                     result[i] = /[0-9]{2}[/][0-9]{2}[/][0-9]{4}/.exec(myArray[i]);
                     // console.log(result[i][0]);
                     date_holidays.push(`${result[i][0]}`);
-                    // $('#mdp-demo').multiDatesPicker({
-                    //     addDates: [date_holidays[i]],
-                    //     numberOfMonths: [3, 4],
-                    //     defaultDate: '1/1/' + y
-                    // });
+                    $('#mdp-demo').multiDatesPicker({
+                        addDates: [date_holidays[i]],
+                        numberOfMonths: [3, 4],
+                        defaultDate: date_holidays[0]
+                    });
                     const dateISO = new Date(date_holidays[i]);
                     console.log(dateISO);
                 }
-
-
-
-
             }
         })
-
-
     });
 
     function onplusTime(datetime, duration, comp) {
