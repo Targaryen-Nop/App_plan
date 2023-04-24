@@ -100,18 +100,12 @@ if (isset($_POST['submit'])) {
     <div class="container-fluid my-2">
         <div class="row">
             <div class="col-4">
-                <h1>Application Plan</h1>
-                <h4>(Don't Count Weekend & Holidays)</h4>
-            </div>
-            <div class="col-3">
-            
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Public Holiday
-                </button>
+                <h1>Application Plan Not Accept</h1>
+                <h4>(Count Weekend & Holidays)</h4>
                 <button type="button" id="hideButton" class="btn btn-primary">
                     Hide Row
                 </button>
-             
+
             </div>
             <div class="col-3">
             <div class="form-floating">
@@ -131,6 +125,9 @@ if (isset($_POST['submit'])) {
                     </select>
                     <label for="floatingSelect">Select Year IO</label>
                 </div>
+            </div>
+            <div class="col-3">
+               
             </div>
         </div>
 
@@ -504,7 +501,7 @@ if (isset($_POST['submit'])) {
 
                 },
                 "ajax": {
-                    url: "app_fatch.php",
+                    url: "app_n_fatch2.php",
                     type: "POST",
                     data: function(data) {
                         //   Read values
@@ -874,12 +871,6 @@ if (isset($_POST['submit'])) {
             for (let i = 0; i < daysToAdd; i++) {
                 // advance startDate by 1 day
                 startDate.setDate(startDate.getDate() + 1);
-
-                // check if the day is a weekend or holiday
-                if (startDate.getDay() === 0 || startDate.getDay() === 6 || date_holidays_format.includes(startDate.toLocaleDateString('en-US'))) {
-                    // subtract 1 from daysToAdd and iterate again
-                    daysToAdd++;
-                }
             }
 
             // return the result as a formatted date string
@@ -898,18 +889,13 @@ if (isset($_POST['submit'])) {
             let businessDays = 0;
             let daysLate = 0;
             while (startDate < endDate) {
-                if (startDate.getDay() != 0 && startDate.getDay() != 6) { // Monday to Friday, not a holiday
-                    businessDays++;
-                    // console.log(startDate);
-                }
+                businessDays++;
                 startDate.setDate(startDate.getDate() + 1);
             }
 
             if (startDate > endDate) { // if end date is in the past
                 while (startDate >= endDate) {
-                    if (startDate.getDay() != 0 && startDate.getDay() != 6) {
-                        daysLate++;
-                    }
+                    daysLate++;
                     startDate.setDate(startDate.getDate() - 1);
                 }
             }

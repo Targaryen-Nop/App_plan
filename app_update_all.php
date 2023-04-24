@@ -21,7 +21,9 @@ $statement = $connection->prepare(
       duraET_qca   = :duraET_qca,
       compET_qca   = :compET_qca,
       duraET_ta   = :duraET_ta,
-      compET_ta   = :compET_ta
+      compET_ta   = :compET_ta,
+      plan_margin = :plan_margin,
+      weeks = :weeks
 
 WHERE app_id = :app_id"
 );
@@ -45,6 +47,8 @@ $result = $statement->execute(
     ':compET_qca'        => $_POST["compQcaValue"],
     ':duraET_ta'        => $_POST["duraTaValue"],
     ':compET_ta'        => $_POST["compTaValue"],
+    ':plan_margin'      => $_POST["planMargin"],
+    ':weeks'            => $_POST["weeks"],
     ':app_id'           => $_POST["id"],
   )
 

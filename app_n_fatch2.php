@@ -142,22 +142,14 @@ foreach ($result as $row) {
 
     while ($startDate < $endDate) {
         $weekday = date('N', strtotime($startDate));
-
-        if ($weekday < 6 && !in_array($startDate, $holidays)) { // Monday to Friday, not a holiday
-            $businessDays++;
-        }
-
+        $businessDays++;
         $startDate = date('Y-m-d', strtotime('+1 day', strtotime($startDate)));
     }
 
     if ($startDate > $endDate) { // if end date is in the past
         while ($endDate < $startDate) {
             $weekday = date('N', strtotime($endDate));
-
-            if ($weekday < 6 && !in_array($endDate, $holidays)) { // Monday to Friday, not a holiday
-                $daysLate++;
-            }
-
+            $daysLate++;
             $endDate = date('Y-m-d', strtotime('+1 day', strtotime($endDate)));
         }
 

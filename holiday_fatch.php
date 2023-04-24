@@ -5,7 +5,7 @@ $query   = '';
 $output  = array();
 
 
-$query = "SELECT holiday_date FROM holiday WHERE year = '2023'";
+$query = "SELECT holiday_date FROM holiday WHERE year = '2022'";
 
 $statement = $connection->prepare($query);
 $statement->execute();

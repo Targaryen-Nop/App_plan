@@ -100,7 +100,7 @@ if (isset($_POST['submit'])) {
     <div class="container-fluid my-2">
         <div class="row">
             <div class="col-4">
-                <h1>Application Plan</h1>
+                <h1>Application Plan Not Accept</h1>
                 <h4>(Don't Count Weekend & Holidays)</h4>
             </div>
             <div class="col-3">
@@ -504,7 +504,7 @@ if (isset($_POST['submit'])) {
 
                 },
                 "ajax": {
-                    url: "app_fatch.php",
+                    url: "app_n_fatch.php",
                     type: "POST",
                     data: function(data) {
                         //   Read values
