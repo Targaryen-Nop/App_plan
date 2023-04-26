@@ -1,101 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+include 'header.php';
+?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css">
-    <script src="https://cdn.knightlab.com/libs/timeline3/latest/js/timeline.js"></script>
-    <script src="https://cdn.knightlab.com/libs/timeline3/latest/js/timeline-api.js"></script>
-    <script src="https://cdn.knightlab.com/libs/timeline3/latest/js/locale/th.js"></script>
-</head>
-<style>
-
-</style>
-
-
+<style></style>
 
 <body>
-    <div style="margin-top: 200px;" id="timeline"></div>
-
+  <div id="timeline-embed" style="width: 100%; height: 600px"></div>
 </body>
+<script async src="//www.instagram.com/embed.js"></script>
 <script>
-    const timelineData = {
-        "events": [{
-                "start_date": {
-                    "year": "2010",
-                    "month": "01",
-                    "day": "01"
-                },
-                "text": {
-                    "headline": "Event 1",
-                    "text": "Description of event 1"
-                },
-                "media": {
-                    "url": "Cat03.jpg",
+  $(document).ready(function() {
+    $.ajax({
+      url: "app_fetchALL.php",
+      method: "POST",
+      dataType: "json",
+      success: function(data) {
+        let array = [];
 
-                }
+        // for (let i = 0; i < 100; i++) {
+        //   array[i] = {
+        //     start_date: {
+        //       year: data.io[i].delivery.substr(0, 4),
+        //       month: data.io[i].delivery.substr(5, 2),
+        //       day: data.io[i].delivery.substr(8, 2),
+        //     },
+        //     text: {
+        //       headline: data[i].customer_name,
+        //       text: "Description of event 1",
+        //     },
+        //     media: {
+        //       url: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3877.019116861581!2d100.46567847429823!3d13.656600999492067!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e2a3ad81fc27cb%3A0x438ff7357b09b43d!2sPlant%20Equipment%20Co.%2C%20Ltd.!5e0!3m2!1sen!2sth!4v1682323277702!5m2!1sen!2sth" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+        //     },
+        //     background: {
+        //       url: "dog.jpg",
+        //     },
+        //   }
+        // }
+        console.log(data);
+        console.log(array);
 
-            },
-            {
-                "start_date": {
-                    "year": "2010",
-                    "month": "03",
-                    "day": "01"
-                },
-                "text": {
-                    "headline": "Eventqwd",
-                    "text": "Description of event "
-                },
-                "media": {
-                    "url": "dog.jpg",
-                    "width":"700",
-                    "height ":"400"
-
-                }
-            },
-            {
-                "start_date": {
-                    "year": "2010",
-                    "month": "05",
-                    "day": "01"
-                },
-                "text": {
-                    "headline": "Eventqwd2",
-                    "text": "Description of event "
-                },
-                
-            },
-            // {
-            //     "start_date": {
-            //         "year": "2015",
-            //         "month": "01",
-            //         "day": "01"
-            //     },
-            //     "text": {
-            //         "headline": "Event 2",
-            //         "text": "Description of event 2"
-            //     }
-            // },
-            // {
-            //     "start_date": {
-            //         "year": "2020",
-            //         "month": "01",
-            //         "day": "01"
-            //     },
-            //     "text": {
-            //         "headline": "Event 3",
-            //         "text": "Description of event 3"
-            //     }
-            // }
-        ],
-    };
-    var timeline = new TL.Timeline('timeline', timelineData, {
-        language: 'th',
-        hight: 500
+        // const timelineData = {
+        //   events:array
+        // };
+        // var timeline = new TL.Timeline("timeline-embed", timelineData, {
+        //   language: "th",
+        //   duration: 1000,
+        //   default_bg_color: {
+        //     r: 0,
+        //     g: 0,
+        //     b: 0,
+        //   },
+        //   // timenav_height: "250",
+        //   is_embed: true,
+        //   timenav_position: "top",
+        //   initial_zoom: 10,
+        //   hash_bookmark: false,
+        // });
+      },
     });
+  });
 </script>
-
-</html>

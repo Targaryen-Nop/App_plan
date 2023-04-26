@@ -104,17 +104,17 @@ if (isset($_POST['submit'])) {
                 <h4>(Don't Count Weekend & Holidays)</h4>
             </div>
             <div class="col-3">
-            
+
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Public Holiday
                 </button>
                 <button type="button" id="hideButton" class="btn btn-primary">
                     Hide Row
                 </button>
-             
+
             </div>
             <div class="col-3">
-            <div class="form-floating">
+                <div class="form-floating">
                     <select class="form-select" name="io_year" id="io_year">
                         <option value="" selected></option>
                         <?php
@@ -231,7 +231,27 @@ if (isset($_POST['submit'])) {
                 </div>
             </div>
         </form>
-
+        <!-- modal -->
+        <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModal2Label" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModal2Label">New message</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div id="timeline-embed" style="width: 100%; height: 600px">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Send message</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -426,7 +446,6 @@ if (isset($_POST['submit'])) {
         })
 
         $(document).ready(function() {
-
             $.ajax({
                 url: "holiday_fatch.php",
                 method: "POST",
@@ -461,35 +480,145 @@ if (isset($_POST['submit'])) {
                 }
             })
 
-            // 
-            // SELECT YEAR
-            // $(document).on('change', '#io_year', function() {
-            //     let DataTable = $('#user_data').DataTable({
-            //         scrollY: "530px",
-            //         scrollX: true,
-            //         scrollCollapse: true,
-            //         paging: false,
-            //         fixedColumns: {
-            //             leftColumns: 10,
+            $(document).on('click', '.timeline', function() {
+                let selecet = $(this).attr("id");
+                let idArray = selecet.split("_");
+                let id = idArray[1];
+                let recievePo = $(`#recivepo_${idArray[1]}`).val();
+                let compPoValue = formatDateParts($(`#compET_po_${idArray[1]}`).val());
+                let compMuValue = formatDateParts($(`#compET_mu_${idArray[1]}`).val());
+                let compArValue = formatDateParts($(`#compET_ar_${idArray[1]}`).val());
+                let compPaValue = formatDateParts($(`#compET_pa_${idArray[1]}`).val());
+                let compQcrValue = formatDateParts($(`#compET_qcr_${idArray[1]}`).val());
+                let compAsValue = formatDateParts($(`#compET_as_${idArray[1]}`).val());
+                let compQcaValue = formatDateParts($(`#compET_qca_${idArray[1]}`).val());
+                let compTaValue = formatDateParts($(`#compET_ta_${idArray[1]}`).val());
 
-            //         },
-            //         ajax: {
-            //             url: "app_single_fatch.php",
-            //             type: "POST",
-            //             data: function(data) {
-            //                 let io_year = $('#io_year').val();
-            //                 data.io_year = io_year;
-            //             }
-            //         },
-            //         "columnDefs": [{
-            //                 "targets": [-1, 0, 1, 2, 3],
-            //                 "orderable": false,
-            //             },
+                // if(recievePo != ""){
+                //     recievePo = recievePo.split("");
+                // }
+                console.log(recievePo.substr(5, 2));
+                console.log(compPoValue);
+            
+                const timelineData = {
+                    events: [
+                        {
+                            start_date: {
+                                year: recievePo != "" ? recievePo.substr(0, 4) : "1999",
+                                month: recievePo != "" ? recievePo.substr(5, 2) : "11",
+                                day: recievePo != "" ? recievePo.substr(8, 2) : "01",
+                            },
+                            text: {
+                                headline: recievePo != "" ? "Recieve PO" : "Don't Have Data",
+                                text: "Description of event 1",
+                            },
+                            media: {
+                                url: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3877.019116861581!2d100.46567847429823!3d13.656600999492067!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e2a3ad81fc27cb%3A0x438ff7357b09b43d!2sPlant%20Equipment%20Co.%2C%20Ltd.!5e0!3m2!1sen!2sth!4v1682323277702!5m2!1sen!2sth" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+                            },
+                            background: {
+                                url: "dog.jpg",
+                            },
+                        },
+                        {
+                            start_date: {
+                                year:  compPoValue != "Invalid Date" ? compPoValue.substr(0, 4) : "1999",
+                                month: compPoValue != "Invalid Date" ? compPoValue.substr(5, 2) : "03",
+                                day: compPoValue != "Invalid Date" ? compPoValue.substr(8, 2) : "01",
+                            },
+                            text: {
+                                headline: compPoValue != "" ? "เอกสาร Po" : "คงค้างเอกสาร Po",
+                                text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                            },
+                            media: {
+                                url: "dog.jpg",
+                            },
+                            background: {
+                                url: "dog.jpg",
+                            },
+                        },
+                        {
+                            start_date: {
+                                year:  compMuValue != "Invalid Date" ? compMuValue.substr(0, 4) : "1999",
+                                month: compMuValue != "Invalid Date" ? compMuValue.substr(5, 2) : "03",
+                                day: compMuValue != "Invalid Date" ? compMuValue.substr(8, 2) : "01",
+                            },
+                            text: {
+                                headline: compPoValue != "" ? "Manufacture" : "Pending at Manufacture",
+                                text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                            },
+                            background: {
+                                url: "dog.jpg",
+                            },
+                        },
+                        {
+                            start_date: {
+                                year:  compPaValue != "Invalid Date" ? compPaValue.substr(0, 4) : "1999",
+                                month: compPaValue != "Invalid Date" ? compPaValue.substr(5, 2) : "03",
+                                day: compPaValue != "Invalid Date" ? compPaValue.substr(8, 2) : "01",
+                            },
+                            text: {
+                                headline: compPaValue != "" ? "	Payment" : "	Pending at Payment",
+                                text: "Description of event ",
+                            },
+                            media: {
+                                url: "https://www.youtube.com/watch?v=v4yJjgKGoLw&list=RD4AZhWRpX8vU&index=2e",
+                            },
+                            background: {
+                                url: "dog.jpg",
+                            },
+                        },
+                        {
+                            start_date: {
+                                year:  compArValue != "Invalid Date" ? compArValue.substr(0, 4) : "1999",
+                                month: compArValue != "Invalid Date" ? compArValue.substr(5, 2) : "03",
+                                day: compArValue != "Invalid Date" ? compArValue.substr(8, 2) : "01",
+                            },
+                            text: {
+                                headline: compArValue != "" ? "	Arrival" : "	Pending at Arrival",
+                                text: "Description of event ",
+                            },
+                            media: {
+                                url: '<iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fjengtieow&tabs=timeline&width=400&height=300&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" width="300" height="200" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>',
+                            },
+                            background: {
+                                url: "dog.jpg",
+                            },
+                        },
+                    
+                        {
+                            start_date: {
+                                year:  compQcrValue != "Invalid Date" ? compQcrValue.substr(0, 4) : "1999",
+                                month: compQcrValue != "Invalid Date" ? compQcrValue.substr(5, 2) : "03",
+                                day: compQcrValue != "Invalid Date" ? compQcrValue.substr(8, 2) : "01",
+                            },
+                            text: {
+                                headline: compPaValue != "" ? "	Payment" : "	Pending at Payment",
+                                text: "Description of event ",
+                            },
+                            media: {
+                                url: '<iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fjengtieow&tabs=timeline&width=400&height=300&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" width="300" height="200" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>',
+                            },
+                            background: {
+                                url: "dog.jpg",
+                            },
+                        },
+                    ],
+                };
+                var timeline = new TL.Timeline("timeline-embed", timelineData, {
+                    language: "th",
+                    duration: 1000,
+                    default_bg_color: {
+                        r: 0,
+                        g: 0,
+                        b: 0,
+                    },
+                    // timenav_height: "250",
+                    is_embed: true,
+                    timenav_position: "top",
+                });
+                $('#exampleModal2').modal('show');
 
-            //         ],
-
-            //     });
-            // })
+            });
 
 
 
@@ -525,11 +654,15 @@ if (isset($_POST['submit'])) {
 
             });
 
+
+
             $('#io_year').change(function() {
                 let io_year = $('#io_year').val();
                 dataTable.draw(io_year);
                 dataTable.ajax.reload();
             });
+
+
             $('#user_data tbody').on('click', 'tr', function() {
                 $(this).toggleClass('selected');
                 // let d = dataTable.row(this);
@@ -545,7 +678,15 @@ if (isset($_POST['submit'])) {
             })
         });
 
-
+        function formatDateParts(date) {
+            const parts = date.split('/');
+            const formattedDate = new Date(parts[2], parts[1] - 1, parts[0]).toLocaleDateString('en-CA', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            }).replace(/\//g, '-');
+            return formattedDate;
+        }
 
 
 

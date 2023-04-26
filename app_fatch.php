@@ -166,9 +166,9 @@ foreach ($result as $row) {
     }
 
     if ($businessDays >= 0) {
-        $sub_array[] = '<button type="button" class="btn btn-success">+' .  $businessDays  . '</button>';
+        $sub_array[] = '<button id="timeline_'.$row['app_id'].'" type="button" class="btn timeline btn-success">+' .  $businessDays  . '</button>';
     } else {
-        $sub_array[] = '<button type="button" class="btn btn-danger">' . $daysLate * -1 . '</button>';
+        $sub_array[] = '<button id="timeline_'.$row['app_id'].'" type="button" class="btn timeline btn-danger">' . $daysLate * -1 . '</button>';
     }
 
 
