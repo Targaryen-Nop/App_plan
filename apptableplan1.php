@@ -258,11 +258,6 @@ if (isset($_POST['submit'])) {
     <script type="text/javascript" language="javascript">
         let date_holidays = [];
         let date_holidays_format = [];
-
-
-
-
-
         $(document).on('input', '.update', function() {
             let selecet = $(this).attr("id");
             let idArray = selecet.split("_");
@@ -273,7 +268,6 @@ if (isset($_POST['submit'])) {
             let Compvalue = $(`#compET_${idArray[1]}_${idArray[2]}`).val();
             let planMargin = $(`#planmargin_${idArray[2]}`).val();
             let weeks = $(`#week_${idArray[2]}`).val();
-
             console.log(inputComp);
             console.log(inputDura);
             console.log(Durationvalue);

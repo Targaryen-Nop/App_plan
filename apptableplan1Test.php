@@ -100,8 +100,14 @@ if (isset($_POST['submit'])) {
     <div class="container-fluid my-2">
         <div class="row">
             <div class="col-4">
-                <h1>Application Plan Not Accept</h1>
-                <h4>(Count Weekend & Holidays)</h4>
+                <h1>Application Plan</h1>
+                <h4>(Don't Count Weekend & Holidays)</h4>
+            </div>
+            <div class="col-3">
+
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Public Holiday
+                </button>
                 <button type="button" id="hideButton" class="btn btn-primary">
                     Hide Row
                 </button>
@@ -125,9 +131,6 @@ if (isset($_POST['submit'])) {
                     </select>
                     <label for="floatingSelect">Select Year IO</label>
                 </div>
-            </div>
-            <div class="col-3">
-
             </div>
         </div>
 
@@ -222,24 +225,35 @@ if (isset($_POST['submit'])) {
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-
                         </div>
                     </div>
                 </div>
             </div>
         </form>
-
+        <!-- modal -->
+        <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModal2Label" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModal2Label">New message</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div style="background-color: black;" class="modal-body">
+                        <div  id="gantt-chart"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Send message</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 
     <script type="text/javascript" language="javascript">
         let date_holidays = [];
         let date_holidays_format = [];
-
-
-
-
-
         $(document).on('input', '.update', function() {
             let selecet = $(this).attr("id");
             let idArray = selecet.split("_");
@@ -250,7 +264,6 @@ if (isset($_POST['submit'])) {
             let Compvalue = $(`#compET_${idArray[1]}_${idArray[2]}`).val();
             let planMargin = $(`#planmargin_${idArray[2]}`).val();
             let weeks = $(`#week_${idArray[2]}`).val();
-
             console.log(inputComp);
             console.log(inputDura);
             console.log(Durationvalue);
@@ -280,7 +293,6 @@ if (isset($_POST['submit'])) {
                 }
             })
         })
-
         $(document).on('keyup', '.update', function() {
             let selecet = $(this).attr("id");
             let idArray = selecet.split("_");
@@ -421,72 +433,121 @@ if (isset($_POST['submit'])) {
                 }
             })
         })
-
         $(document).ready(function() {
-
             $.ajax({
-                url: "holiday_fatch.php",
+                url: "testFecth.php",
                 method: "POST",
-                data: {
-                    doc_number: "doc_number"
-                },
                 dataType: "json",
                 success: function(data) {
-                    let result = [];
-                    let HolidaytDate = [];
-                    let myArray = data[0].split(",");
-                    console.log(myArray.length);
-                    const today = new Date();
-                    const y = today.getFullYear();
-                    for (let i = 0; i < myArray.length; i++) {
-                        result[i] = /[0-9]{2}[/][0-9]{2}[/][0-9]{4}/.exec(myArray[i]);
-                        // console.log(result[i][0]);
-                        date_holidays.push(`${result[i][0]}`);
-                        // console.log(typeof date_holidays);
-                        $('#mdp-demo').multiDatesPicker({
-                            addDates: [date_holidays[i]],
-                            numberOfMonths: [1, 4],
-                            defaultDate: date_holidays[0],
-                        });
-                        HolidaytDate.push(new Date(result[i][0]).toLocaleDateString('en-US'));
-                        date_holidays_format = HolidaytDate;
-                        // const dateISO = new Date(date_holidays[i]);
-                        // console.log(date_holidays_format);
-                        // console.log(HolidaytDate)
-                    }
-                    // date_holidays_format.push(HolidaytDate);
+                    console.log(data);
                 }
             })
+            $(document).on('click', '.timeline', function() {
+                let selecet = $(this).attr("id");
+                let idArray = selecet.split("_");
+                let id = idArray[1];
+                let recievePo = $(`#recivepo_${idArray[1]}`).val();
+                let compPoValue = formatDateParts($(`#compET_po_${idArray[1]}`).val());
+                let compMuValue = formatDateParts($(`#compET_mu_${idArray[1]}`).val());
+                let compArValue = formatDateParts($(`#compET_ar_${idArray[1]}`).val());
+                let compPaValue = formatDateParts($(`#compET_pa_${idArray[1]}`).val());
+                let compQcrValue = formatDateParts($(`#compET_qcr_${idArray[1]}`).val());
+                let compAsValue = formatDateParts($(`#compET_as_${idArray[1]}`).val());
+                let compQcaValue = formatDateParts($(`#compET_qca_${idArray[1]}`).val());
+                let compTaValue = formatDateParts($(`#compET_ta_${idArray[1]}`).val());
+                console.log(recievePo.substr(5, 2));
+                console.log(recievePo);
+                let options = {
+                    header_height: 50,
+                    column_width: 30,
+                    step: 'week',
+                    view_modes: ['Quarter Day', 'Half Day', 'Day', 'Week', 'Quarter Month', 'Month', 'Year'],
+                    bar_height: 20,
+                    bar_corner_radius: 3,
+                    arrow_curve: 5,
+                    padding: 18,
+                    view_mode: 'Week',
+                    date_format: 'YYYY-MM-DD',
+                    custom_popup_html: function(task) {
+                        // Custom popup HTML function
+                        return '<div class="task-popup">' +
+                            '<h5>' + task.name + '</h5>' +
+                            '<p>Start: ' + task.start + '</p>' +
+                            '<p>End: ' + task.end + '</p>' +
+                            '</div>';
+                    }
+                };
+                // Initialize Gantt chart
+                let tasks = [{
+                        id: 'task_1',
+                        name: 'ออกเอกสาร PO',
+                        start: recievePo,
+                        end: compPoValue,
+                        progress: 100,
+                    },
+                    {
+                        id: 'task_2',
+                        name: 'Manufacture',
+                        start: compPoValue,
+                        end: compMuValue,
+                        progress: 100,
+                        dependencies: ['task_1']
+                    },
+                    {
+                        id: 'task_3',
+                        name: 'Payment',
+                        start: compMuValue,
+                        end: compPaValue,
+                        progress: 100,
+                        dependencies: ['task_2']
+                    },
+                    {
+                        id: 'task_4',
+                        name: 'Arrival',
+                        start: compPaValue,
+                        end: compArValue,
+                        progress: 100,
+                        dependencies: ['task_3']
+                    },
+                    {
+                        id: 'task_5',
+                        name: 'QC Receive',
+                        start: compArValue,
+                        end: compQcrValue,
+                        progress: 100,
+                        dependencies: ['task_4']
+                    },
+                    {
+                        id: 'task_6',
+                        name: 'Assembly',
+                        start: compQcrValue,
+                        end: compAsValue,
+                        progress: 100,
+                        dependencies: ['task_5']
+                    },
+                    {
+                        id: 'task_7',
+                        name: 'QC Assembly',
+                        start: compAsValue,
+                        end: compQcaValue,
+                        progress: 100,
+                        dependencies: ['task_6']
+                    },
+                    {
+                        id: 'task_8',
+                        name: 'Transport',
+                        start: compQcaValue,
+                        end: compTaValue,
+                        progress: 100,
+                        dependencies: ['task_7']
+                    },
+                    // Add more tasks as needed
+                ];
 
-            // 
-            // SELECT YEAR
-            // $(document).on('change', '#io_year', function() {
-            //     let DataTable = $('#user_data').DataTable({
-            //         scrollY: "530px",
-            //         scrollX: true,
-            //         scrollCollapse: true,
-            //         paging: false,
-            //         fixedColumns: {
-            //             leftColumns: 10,
+                const gantt = new Gantt('#gantt-chart', tasks, options);
+                $('#exampleModal2').modal('show');
 
-            //         },
-            //         ajax: {
-            //             url: "app_single_fatch.php",
-            //             type: "POST",
-            //             data: function(data) {
-            //                 let io_year = $('#io_year').val();
-            //                 data.io_year = io_year;
-            //             }
-            //         },
-            //         "columnDefs": [{
-            //                 "targets": [-1, 0, 1, 2, 3],
-            //                 "orderable": false,
-            //             },
-
-            //         ],
-
-            //     });
-            // })
+            });
 
 
 
@@ -501,7 +562,7 @@ if (isset($_POST['submit'])) {
 
                 },
                 "ajax": {
-                    url: "app_n_fatch2.php",
+                    url: "app_fatch.php",
                     type: "POST",
                     data: function(data) {
                         //   Read values
@@ -522,11 +583,15 @@ if (isset($_POST['submit'])) {
 
             });
 
+
+
             $('#io_year').change(function() {
                 let io_year = $('#io_year').val();
                 dataTable.draw(io_year);
                 dataTable.ajax.reload();
             });
+
+
             $('#user_data tbody').on('click', 'tr', function() {
                 $(this).toggleClass('selected');
                 // let d = dataTable.row(this);
@@ -542,7 +607,15 @@ if (isset($_POST['submit'])) {
             })
         });
 
-
+        function formatDateParts(date) {
+            const parts = date.split('/');
+            const formattedDate = new Date(parts[2], parts[1] - 1, parts[0]).toLocaleDateString('en-CA', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            }).replace(/\//g, '-');
+            return formattedDate;
+        }
 
 
 
@@ -871,6 +944,12 @@ if (isset($_POST['submit'])) {
             for (let i = 0; i < daysToAdd; i++) {
                 // advance startDate by 1 day
                 startDate.setDate(startDate.getDate() + 1);
+
+                // check if the day is a weekend or holiday
+                if (startDate.getDay() === 0 || startDate.getDay() === 6 || date_holidays_format.includes(startDate.toLocaleDateString('en-US'))) {
+                    // subtract 1 from daysToAdd and iterate again
+                    daysToAdd++;
+                }
             }
 
             // return the result as a formatted date string
@@ -889,13 +968,18 @@ if (isset($_POST['submit'])) {
             let businessDays = 0;
             let daysLate = 0;
             while (startDate < endDate) {
-                businessDays++;
+                if (startDate.getDay() != 0 && startDate.getDay() != 6) { // Monday to Friday, not a holiday
+                    businessDays++;
+                    // console.log(startDate);
+                }
                 startDate.setDate(startDate.getDate() + 1);
             }
 
             if (startDate > endDate) { // if end date is in the past
                 while (startDate >= endDate) {
-                    daysLate++;
+                    if (startDate.getDay() != 0 && startDate.getDay() != 6) {
+                        daysLate++;
+                    }
                     startDate.setDate(startDate.getDate() - 1);
                 }
             }

@@ -94,6 +94,12 @@ include "connectdb.php";
     <link href='chosen/chosen.min.css' rel='stylesheet' type='text/css'>
     <script src='chosen/chosen.jquery.min.js' type='text/javascript'></script>
 
+    <link rel="stylesheet" type="text/css" href="https://docs.dhtmlx.com/gantt/codebase/dhtmlxgantt.css">
+<script src="https://docs.dhtmlx.com/gantt/codebase/dhtmlxgantt.js?v=6.1.7"></script>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/frappe-gantt/dist/frappe-gantt.css" />
+  <script src="https://cdn.jsdelivr.net/npm/frappe-gantt/dist/frappe-gantt.js"></script>
     <!-- Use for Font Awesome -->
     <script src="https://kit.fontawesome.com/95e0a11daf.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">

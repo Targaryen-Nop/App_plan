@@ -1,50 +1,29 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
- 
+<html>
 <head>
-    <meta charset="utf-8">
-    <title>
-        How to get values from html input
-        array using JavaScript ?
-    </title>
+  <script src="https://cdn.anychart.com/releases/8.8.0/js/anychart-base.min.js"></script>
+  <script src="https://cdn.anychart.com/releases/8.8.0/js/anychart-data-adapter.min.js"></script>
+  <style type="text/css">
+    html,
+    body,
+    #container {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
 </head>
- 
-<body style="text-align: center;">
-     
-    <h1 style="color: green;">
-        GeeksforGeeks
-    </h1>
- 
-    <h3 id="po">Input Array Elements</h3>
-    <form class="" action="index.html" method="post">
-        <input type="text" name="array[]" value="" /><br>
-        <input type="text" name="array[]" value="" /><br>
-        <input type="text" name="array[]" value="" /><br>
-        <input type="text" name="array[]" value="" /><br>
-        <input type="text" name="array[]" value="" /><br>
-        <button type="button" name="button" onclick="Geeks()">
-            Submit
-        </button>
-    </form>
-    <br>
- 
-    <p id="par"></p>
- 
-    <script type="text/javascript">
-        var k = "The respective values are :";
-        function Geeks() {
-            var input = document.getElementsByName('array[]');
- 
-            for (var i = 0; i < input.length; i++) {
-                var a = input[i];
-                k = k + "array[" + i + "].value= "
-                                   + a.value + " ";
-            }
- 
-            document.getElementById("par").innerHTML = k;
-            document.getElementById("po").innerHTML = "Output";
-        }
-    </script>
+<body>
+  <div id="container"></div>
+  <script>
+    anychart.onDocumentReady(function () {
+      anychart.data.loadJsonFile("testFecth.php", function (data) {
+        // create a chart and set loaded data
+        chart = anychart.bar(data);
+        chart.container("container");
+        chart.draw();
+      });
+    });
+  </script>
 </body>
- 
 </html>

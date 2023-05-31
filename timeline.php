@@ -1,62 +1,126 @@
-<?php
-include 'header.php';
-?>
+<!DOCTYPE html>
+<html lang="en">
 
-<style></style>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <!-- <link rel="stylesheet" href="https://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.css" />
+  <script src="https://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.js"></script> -->
+
+  <script src="https://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.js"></script>
+    <link href="https://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.css" rel="stylesheet">
+</head>
 
 <body>
-  <div id="timeline-embed" style="width: 100%; height: 600px"></div>
+  <div id="gantt-chart" style="width: 100%; height: 500px;"></div>
 </body>
-<script async src="//www.instagram.com/embed.js"></script>
 <script>
-  $(document).ready(function() {
-    $.ajax({
-      url: "app_fetchALL.php",
-      method: "POST",
-      dataType: "json",
-      success: function(data) {
-        let array = [];
+  // Initialize Gantt chart
+  gantt.init("gantt-chart");
+  // Modify options using gantt.config
+  gantt.config.date_format = '%d-%m-%Y';
+  gantt.config.scale_unit = 'week';
+  gantt.config.scale_step = 2;
+  gantt.config.show_grid = true;
 
-        // for (let i = 0; i < 100; i++) {
-        //   array[i] = {
-        //     start_date: {
-        //       year: data.io[i].delivery.substr(0, 4),
-        //       month: data.io[i].delivery.substr(5, 2),
-        //       day: data.io[i].delivery.substr(8, 2),
-        //     },
-        //     text: {
-        //       headline: data[i].customer_name,
-        //       text: "Description of event 1",
-        //     },
-        //     media: {
-        //       url: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3877.019116861581!2d100.46567847429823!3d13.656600999492067!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e2a3ad81fc27cb%3A0x438ff7357b09b43d!2sPlant%20Equipment%20Co.%2C%20Ltd.!5e0!3m2!1sen!2sth!4v1682323277702!5m2!1sen!2sth" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
-        //     },
-        //     background: {
-        //       url: "dog.jpg",
-        //     },
-        //   }
-        // }
-        console.log(data);
-        console.log(array);
+  // Alternatively, you can use gantt.config to set options individually
 
-        // const timelineData = {
-        //   events:array
-        // };
-        // var timeline = new TL.Timeline("timeline-embed", timelineData, {
-        //   language: "th",
-        //   duration: 1000,
-        //   default_bg_color: {
-        //     r: 0,
-        //     g: 0,
-        //     b: 0,
-        //   },
-        //   // timenav_height: "250",
-        //   is_embed: true,
-        //   timenav_position: "top",
-        //   initial_zoom: 10,
-        //   hash_bookmark: false,
-        // });
+
+  //   var tasks = [
+  //   {
+  //     id: 1,
+  //     text: 'Task 1',
+  //     start_date: '2023-05-01',
+  //     duration: 5
+  //   },
+  //   {
+  //     id: 2,
+  //     text: 'Task 2',
+  //     start_date: '2023-05-06',
+  //     duration: 5,
+  //     links: [
+  //       { id: 1, source: 1, target: 2, type: '0' }
+  //     ]
+  //   }
+  // ];
+
+
+  // Load tasks into the Gantt chart
+  gantt.parse({
+    data: [{
+        id: 1,
+        text: "Project #1",
+        start_date: null,
+        duration: null,
+        parent: 0,
+        progress: 0,
+        open: true
       },
-    });
+      {
+        id: 2,
+        text: "Task #1",
+        start_date: "2019-08-01 00:00",
+        duration: 5,
+        parent: 1,
+        progress: 1
+      },
+      {
+        id: 3,
+        text: "Task #2",
+        start_date: "2019-08-06 00:00",
+        duration: 2,
+        parent: 1,
+        progress: 0.5
+      },
+      {
+        id: 4,
+        text: "Task #3",
+        start_date: null,
+        duration: null,
+        parent: 1,
+        progress: 0.8,
+        open: true
+      },
+      {
+        id: 5,
+        text: "Task #3.1",
+        start_date: "2019-08-09 00:00",
+        duration: 2,
+        parent: 4,
+        progress: 0.2
+      },
+      {
+        id: 6,
+        text: "Task #3.2",
+        start_date: "2019-08-11 00:00",
+        duration: 1,
+        parent: 4,
+        progress: 0
+      }
+    ],
+    links: [{
+        id: 1,
+        source: 2,
+        target: 3,
+        type: "0"
+      },
+      {
+        id: 2,
+        source: 3,
+        target: 4,
+        type: "0"
+      },
+      {
+        id: 3,
+        source: 5,
+        target: 6,
+        type: "0"
+      }
+    ]
   });
 </script>
+
+</html>
